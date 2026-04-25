@@ -7,6 +7,7 @@ public record MatchPredictionResponse(
         Long matchId,
         Long userId,
         String userDisplayName,
+        boolean predictedTie,
         Long predictedWinnerId,
         String predictedWinnerName,
         Long predictedTossWinnerId,

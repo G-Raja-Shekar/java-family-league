@@ -14,6 +14,7 @@ public class MatchPredictionMapper {
                 p.getMatch().getId(),
                 p.getUser().getId(),
                 p.getUser().getDisplayName(),
+                p.isPredictedTie(),
                 p.getPredictedWinner() != null ? p.getPredictedWinner().getId() : null,
                 p.getPredictedWinner() != null ? p.getPredictedWinner().getName() : null,
                 p.getPredictedTossWinner() != null ? p.getPredictedTossWinner().getId() : null,

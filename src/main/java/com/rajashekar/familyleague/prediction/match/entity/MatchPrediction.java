@@ -43,4 +43,7 @@ public class MatchPrediction extends AuditableEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "predicted_player_of_match_id")
     private Player predictedPlayerOfMatch;
+
+    @Column(name = "predicted_tie", nullable = false)
+    private boolean predictedTie = false;
 }

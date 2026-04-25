@@ -61,7 +61,8 @@ public class MatchPredictionServiceImpl implements MatchPredictionService {
 
         prediction.setMatch(match);
         prediction.setUser(user);
-        prediction.setPredictedWinner(resolveTeam(request.predictedWinnerId(), match));
+        prediction.setPredictedTie(request.predictedTie());
+        prediction.setPredictedWinner(request.predictedTie() ? null : resolveTeam(request.predictedWinnerId(), match));
         prediction.setPredictedTossWinner(resolveTeam(request.predictedTossWinnerId(), match));
         prediction.setPredictedPlayerOfMatch(resolvePlayer(request.predictedPlayerOfMatchId()));
 
