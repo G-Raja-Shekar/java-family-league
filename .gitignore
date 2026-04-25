@@ -30,3 +30,4 @@ logs/
 
 ### Local config — never commit ###
 src/main/resources/application-local.properties
+.env
