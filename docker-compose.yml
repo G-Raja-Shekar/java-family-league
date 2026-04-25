@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: family-league-db
+    environment:
+      POSTGRES_DB: family_league
+      POSTGRES_USER: family_league
+      POSTGRES_PASSWORD: family_league
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U family_league -d family_league"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
