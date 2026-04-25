@@ -1,6 +1,10 @@
 package com.rajashekar.familyleague.scoring.service;
 
+import com.rajashekar.familyleague.prediction.league.dto.TeamPositionEntry;
+import com.rajashekar.familyleague.prediction.league.entity.LeaguePrediction;
 import com.rajashekar.familyleague.prediction.match.entity.MatchPrediction;
+import com.rajashekar.familyleague.result.dto.FinalStandingsEntry;
+import com.rajashekar.familyleague.result.entity.LeagueResult;
 import com.rajashekar.familyleague.result.entity.MatchResult;
 import com.rajashekar.familyleague.scoring.dto.PointAward;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -32,6 +38,37 @@ public class ScoringServiceImpl implements ScoringService {
             ));
         }
         log.debug("Scoring complete for match {}: {} awards", result.getMatch().getId(), awards.size());
+        return awards;
+    }
+
+    @Override
+    public List<PointAward> calculateLeague(LeagueResult result, List<LeaguePrediction> predictions) {
+        Map<Long, Integer> actualPositions = result.getFinalStandings().stream()
+                .collect(Collectors.toMap(FinalStandingsEntry::teamId, FinalStandingsEntry::position));
+
+        List<PointAward> awards = new ArrayList<>();
+        for (LeaguePrediction prediction : predictions) {
+            int points = 0;
+            List<String> reasons = new ArrayList<>();
+
+            if (prediction.getPredictedPositions() != null) {
+                for (TeamPositionEntry entry : prediction.getPredictedPositions()) {
+                    Integer actual = actualPositions.get(entry.teamId());
+                    if (actual != null && actual == entry.position()) {
+                        points++;
+                        reasons.add("Team " + entry.teamId() + " at position " + entry.position());
+                    }
+                }
+            }
+
+            awards.add(new PointAward(
+                    prediction.getUser().getId(),
+                    null,
+                    points,
+                    String.join(", ", reasons)
+            ));
+        }
+        log.debug("League scoring complete for season {}: {} awards", result.getSeason().getId(), awards.size());
         return awards;
     }
 
