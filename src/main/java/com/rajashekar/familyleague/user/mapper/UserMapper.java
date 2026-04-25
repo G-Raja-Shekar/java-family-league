@@ -2,10 +2,14 @@ package com.rajashekar.familyleague.user.mapper;
 
 import com.rajashekar.familyleague.user.dto.UserResponse;
 import com.rajashekar.familyleague.user.entity.User;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface UserMapper {
+@Component
+public class UserMapper {
 
-    UserResponse toResponse(User user);
+    public UserResponse toResponse(User user) {
+        if (user == null) return null;
+        return new UserResponse(user.getId(), user.getEmail(),
+                user.getDisplayName(), user.getAvatarUrl(), user.getRole());
+    }
 }
