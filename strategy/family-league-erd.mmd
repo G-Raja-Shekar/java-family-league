@@ -1,0 +1,22 @@
+---
+title: Family League ERD
+theme: default
+---
+
+erDiagram
+    LEAGUES ||--o{ SEASONS : "has"
+    SEASONS ||--o{ MATCHES : "has"
+    SEASONS ||--o{ LEAGUE_PREDICTIONS : "has"
+    SEASONS ||--o{ LEADERBOARD_ENTRIES : "has"
+    SEASONS ||--o| LEAGUE_RESULTS : "has"
+    TEAMS ||--o{ PLAYERS : "has"
+    TEAMS ||--o{ MATCHES : "home/away"
+    MATCHES ||--o{ MATCH_PREDICTIONS : "has"
+    MATCHES ||--o| MATCH_RESULTS : "has"
+    USERS ||--o{ MATCH_PREDICTIONS : "makes"
+    USERS ||--o{ LEAGUE_PREDICTIONS : "makes"
+    USERS ||--o{ LEADERBOARD_ENTRIES : "has"
+    PLAYERS ||--o{ MATCH_PREDICTIONS : "predicted_player_of_match"
+    PLAYERS ||--o{ MATCH_RESULTS : "player_of_match"
+    TEAMS ||--o{ MATCH_PREDICTIONS : "predicted_winner/toss"
+    TEAMS ||--o{ MATCH_RESULTS : "winner/toss"
